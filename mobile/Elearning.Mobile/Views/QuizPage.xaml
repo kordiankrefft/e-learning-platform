@@ -1,0 +1,173 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Elearning.Mobile.Views.QuizPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:Elearning.Mobile.ViewModels.Quizzes"
+    BackgroundColor="#0B0B0B"
+    Shell.BackButtonBehavior="{StaticResource NoBackButton}">
+
+    <Grid>
+
+        <Grid IsVisible="{Binding IsBusy}">
+            <ActivityIndicator IsRunning="True"
+                               VerticalOptions="Center"
+                               HorizontalOptions="Center" />
+        </Grid>
+
+        <ScrollView IsVisible="{Binding IsNotBusy}">
+            <VerticalStackLayout Padding="18" Spacing="14">
+
+                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                    <VerticalStackLayout Spacing="2">
+                        <Label Text="{Binding Title}"
+                               TextColor="White"
+                               FontSize="22"
+                               FontAttributes="Bold" />
+
+                        <Label Text="{Binding Description}"
+                               TextColor="#9CA3AF"
+                               FontSize="12"
+                               IsVisible="{Binding HasDescription}" />
+
+                        <HorizontalStackLayout Spacing="10" Margin="0,6,0,0">
+                            <Border BackgroundColor="#111827"
+                                    Stroke="#222"
+                                    StrokeShape="RoundRectangle 999"
+                                    Padding="10,6"
+                                    IsVisible="{Binding ShowTimer}">
+                                <Label Text="{Binding TimerText}"
+                                       TextColor="#FDE68A"
+                                       FontAttributes="Bold"
+                                       FontSize="12" />
+                            </Border>
+
+                            <Border BackgroundColor="#0F0F0F"
+                                    Stroke="#222"
+                                    StrokeShape="RoundRectangle 999"
+                                    Padding="10,6">
+                                <Label Text="{Binding AnswersText}"
+                                       TextColor="#D1D5DB"
+                                       FontAttributes="Bold"
+                                       FontSize="12" />
+                            </Border>
+
+                            <Border BackgroundColor="#0F0F0F"
+                                    Stroke="#222"
+                                    StrokeShape="RoundRectangle 999"
+                                    Padding="10,6"
+                                    IsVisible="{Binding ShowMaxAttempts}">
+                                <Label Text="{Binding MaxAttemptsText}"
+                                       TextColor="#D1D5DB"
+                                       FontAttributes="Bold"
+                                       FontSize="12" />
+                            </Border>
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
+
+                    <Button Grid.Column="1"
+                            Text="← Wróć"
+                            BackgroundColor="Transparent"
+                            TextColor="#FACC15"
+                            BorderColor="#FACC15"
+                            BorderWidth="1"
+                            CornerRadius="12"
+                            HeightRequest="40"
+                            Command="{Binding BackCommand}" />
+                </Grid>
+
+                <Border IsVisible="{Binding HasError}"
+                        Background="#3A1C1C"
+                        Stroke="#7A2E2E"
+                        StrokeShape="RoundRectangle 12"
+                        Padding="12">
+                    <Label Text="{Binding Error}" TextColor="#FFD6D6" />
+                </Border>
+
+                <CollectionView ItemsSource="{Binding Questions}"
+                                SelectionMode="None"
+                                Margin="0,6,0,0">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="vm:QuizQuestionViewModel">
+  
+                            <ContentView x:Name="QuestionRoot">
+                                <Border Background="#121212"
+                                        Stroke="#222"
+                                        StrokeShape="RoundRectangle 16"
+                                        Padding="14"
+                                        Margin="0,0,0,12">
+                                    <VerticalStackLayout Spacing="10">
+
+                                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                                            <Label Text="{Binding HeaderText}"
+                                                   TextColor="White"
+                                                   FontSize="14"
+                                                   FontAttributes="Bold"
+                                                   LineBreakMode="WordWrap" />
+
+                                            <Border Grid.Column="1"
+                                                    BackgroundColor="#1F2937"
+                                                    StrokeShape="RoundRectangle 999"
+                                                    Padding="10,6">
+                                                <Label Text="{Binding PointsText}"
+                                                       TextColor="#FDE68A"
+                                                       FontAttributes="Bold"
+                                                       FontSize="12" />
+                                            </Border>
+                                        </Grid>
+
+                                        <VerticalStackLayout Spacing="8"
+                                                             BindableLayout.ItemsSource="{Binding Options}">
+                                            <BindableLayout.ItemTemplate>
+                                                <DataTemplate x:DataType="vm:QuizOptionViewModel">
+                                                    <Border BackgroundColor="{Binding Bg}"
+                                                            Stroke="{Binding Stroke}"
+                                                            StrokeShape="RoundRectangle 12"
+                                                            Padding="12">
+                                                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+
+                                                            <Label Text="{Binding RadioGlyph}"
+                                                                   TextColor="{Binding RadioColor}"
+                                                                   FontSize="16"
+                                                                   VerticalOptions="Center" />
+
+                                                            <Label Grid.Column="1"
+                                                                   Text="{Binding AnswerText}"
+                                                                   TextColor="White"
+                                                                   FontSize="13"
+                                                                   LineBreakMode="WordWrap"
+                                                                   VerticalOptions="Center" />
+                                                        </Grid>
+
+                                                        <Border.GestureRecognizers>
+                                                            <TapGestureRecognizer
+                                                                Command="{Binding Source={x:Reference QuestionRoot}, Path=BindingContext.SelectOptionCommand}"
+                                                                CommandParameter="{Binding .}" />
+                                                        </Border.GestureRecognizers>
+
+                                                    </Border>
+                                                </DataTemplate>
+                                            </BindableLayout.ItemTemplate>
+                                        </VerticalStackLayout>
+
+                                    </VerticalStackLayout>
+                                </Border>
+                            </ContentView>
+
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <Button Text="{Binding SubmitButtonText}"
+                        BackgroundColor="#FACC15"
+                        TextColor="Black"
+                        CornerRadius="999"
+                        HeightRequest="46"
+                        Command="{Binding SubmitCommand}"
+                        IsEnabled="{Binding CanSubmit}"
+                        IsVisible="{Binding ShowSubmit}" />
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

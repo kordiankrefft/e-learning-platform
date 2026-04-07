@@ -1,0 +1,149 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Elearning.Mobile.Views.CoursesPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:models="clr-namespace:Elearning.Mobile.Models"
+    BackgroundColor="#0B0B0B"
+    Shell.BackButtonBehavior="{StaticResource NoBackButton}">
+
+    <Grid>
+
+        <ActivityIndicator
+            IsVisible="{Binding IsBusy}"
+            IsRunning="{Binding IsBusy}"
+            VerticalOptions="Center"
+            HorizontalOptions="Center" />
+
+        <ScrollView IsVisible="{Binding IsNotBusy}">
+            <VerticalStackLayout Padding="18" Spacing="14">
+
+                <Label
+                    Text="Kursy"
+                    FontSize="22"
+                    FontAttributes="Bold"
+                    TextColor="White" />
+
+                <Border
+                    IsVisible="{Binding HasError}"
+                    Background="#3A1C1C"
+                    Stroke="#7A2E2E"
+                    StrokeShape="RoundRectangle 12"
+                    Padding="12">
+                    <Label Text="{Binding Error}" TextColor="#FFD6D6" />
+                </Border>
+
+                <CollectionView ItemsSource="{Binding Courses}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:CourseCardVm">
+
+                            <Border
+                                Background="#121212"
+                                Stroke="#222"
+                                StrokeShape="RoundRectangle 16"
+                                Padding="0">
+
+                                <Grid RowDefinitions="140,*"
+                                      IsClippedToBounds="True">
+          
+                                    <Grid Grid.Row="0" IsClippedToBounds="True">
+                                        <Image
+                                            Source="{Binding ImageUrl}"
+                                            Aspect="AspectFill"
+                                            HeightRequest="140"
+                                            HorizontalOptions="Fill"
+                                            VerticalOptions="Fill" />
+                                    </Grid>
+
+                                    <VerticalStackLayout Grid.Row="1" Padding="16" Spacing="10">
+
+                                        <Label Text="{Binding Title}"
+                                               TextColor="White"
+                                               FontSize="16"
+                                               FontAttributes="Bold" />
+
+                                        <Label Text="{Binding ShortDescription}"
+                                               TextColor="#BDBDBD"
+                                               FontSize="13" />
+
+                                        <Label Text="{Binding DifficultyLevel, StringFormat='Poziom: {0}'}"
+                                               TextColor="#9CA3AF"
+                                               FontSize="12" />
+
+                                        <Button Text="Czytaj więcej"
+                                                BackgroundColor="Transparent"
+                                                TextColor="#FACC15"
+                                                Padding="0"
+                                                HorizontalOptions="Start"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.OpenCourseModalCommand}"
+                                                CommandParameter="{Binding .}" />
+
+                                        <Button Text="Wykup kurs →"
+                                                BackgroundColor="#FACC15"
+                                                TextColor="Black"
+                                                CornerRadius="999"
+                                                HeightRequest="38"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.OpenPricingCommand}"
+                                                CommandParameter="{Binding .}" />
+                                    </VerticalStackLayout>
+
+                                </Grid>
+                            </Border>
+
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <Grid IsVisible="{Binding IsCourseModalOpen}"
+              BackgroundColor="#99000000"
+              Padding="18">
+
+            <Border BackgroundColor="#121212"
+                    Stroke="#2A2A2A"
+                    StrokeShape="RoundRectangle 16"
+                    Padding="16"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center"
+                    MaximumWidthRequest="520">
+
+                <VerticalStackLayout Spacing="12">
+
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label Text="{Binding SelectedCourseCard.Title}"
+                               TextColor="White"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               LineBreakMode="TailTruncation" />
+
+                        <Button Grid.Column="1"
+                                Text="✕"
+                                BackgroundColor="Transparent"
+                                TextColor="#FACC15"
+                                FontAttributes="Bold"
+                                Command="{Binding CloseCourseModalCommand}" />
+                    </Grid>
+
+                    <ScrollView HeightRequest="260">
+                        <Label Text="{Binding SelectedCourseCard.LongDescription}"
+                               TextColor="#BDBDBD"
+                               LineBreakMode="WordWrap" />
+                    </ScrollView>
+
+                    <Button Text="Zamknij"
+                            BackgroundColor="Transparent"
+                            TextColor="#FACC15"
+                            BorderColor="#FACC15"
+                            BorderWidth="1"
+                            CornerRadius="12"
+                            HeightRequest="44"
+                            Command="{Binding CloseCourseModalCommand}" />
+
+                </VerticalStackLayout>
+            </Border>
+        </Grid>
+
+    </Grid>
+</ContentPage>

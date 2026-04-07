@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Elearning.Mobile.Views.ModulesPage"
+    x:Name="Root"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:Elearning.Mobile.ViewModels"
+    xmlns:models="clr-namespace:Elearning.Mobile.Models"
+    x:DataType="vm:ModuleViewModel"
+    BackgroundColor="#0B0B0B"
+    Shell.BackButtonBehavior="{StaticResource NoBackButton}">
+
+    <Grid>
+
+        <Grid IsVisible="{Binding IsBusy}">
+            <ActivityIndicator IsRunning="True"
+                               VerticalOptions="Center"
+                               HorizontalOptions="Center" />
+        </Grid>
+
+        <ScrollView IsVisible="{Binding IsNotBusy}">
+            <VerticalStackLayout Padding="18" Spacing="14">
+
+                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                    <VerticalStackLayout Spacing="2">
+                        <Label Text="Moduły"
+                               TextColor="White"
+                               FontSize="22"
+                               FontAttributes="Bold" />
+
+                        <Label Text="{Binding HeaderCourseTitle}"
+                               TextColor="#BDBDBD"
+                               FontSize="12" />
+                    </VerticalStackLayout>
+                </Grid>
+
+                <Border IsVisible="{Binding HasError}"
+                        Background="#3A1C1C"
+                        Stroke="#7A2E2E"
+                        StrokeShape="RoundRectangle 12"
+                        Padding="12">
+                    <Label Text="{Binding Error}" TextColor="#FFD6D6" />
+                </Border>
+
+                <Label Text="Brak modułów w tym kursie."
+                       TextColor="#BDBDBD"
+                       IsVisible="{Binding ShowEmptyModules}" />
+
+                <VerticalStackLayout
+                    Spacing="12"
+                    BindableLayout.ItemsSource="{Binding Modules}"
+                    IsVisible="{Binding HasModules}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="models:ModuleCardModel">
+
+                            <Border Background="#121212"
+                                    Stroke="#222"
+                                    StrokeShape="RoundRectangle 16"
+                                    Padding="16">
+
+                                <VerticalStackLayout Spacing="10">
+
+                                    <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
+                                        <Border BackgroundColor="#1F1F1F"
+                                                Stroke="#2A2A2A"
+                                                StrokeThickness="1"
+                                                StrokeShape="RoundRectangle 999"
+                                                Padding="10,4">
+                                            <Label Text="{Binding OrderBadge}"
+                                                   TextColor="#FACC15"
+                                                   FontSize="12"
+                                                   FontAttributes="Bold" />
+                                        </Border>
+
+                                        <Label Text="{Binding Title}"
+                                               TextColor="White"
+                                               FontSize="16"
+                                               FontAttributes="Bold"
+                                               LineBreakMode="TailTruncation"
+                                               MaxLines="2" />
+                                    </HorizontalStackLayout>
+
+                                    <Label Text="{Binding DescriptionText}"
+                                           TextColor="#D1D5DB"
+                                           FontSize="12"
+                                           LineBreakMode="TailTruncation"
+                                           MaxLines="4" />
+
+                                    <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                                        <Label Grid.Column="0"
+                                               Text="{Binding ProgressText}"
+                                               TextColor="#9CA3AF"
+                                               FontSize="12" />
+
+                                        <Label Grid.Column="1"
+                                               Text="{Binding QuizText}"
+                                               TextColor="#9CA3AF"
+                                               FontSize="12"
+                                               HorizontalTextAlignment="End" />
+                                    </Grid>
+
+                                    <HorizontalStackLayout Spacing="10">
+
+                                        <Button Text="Otwórz moduł →"
+                                                BackgroundColor="#FACC15"
+                                                TextColor="Black"
+                                                CornerRadius="999"
+                                                HeightRequest="40"
+                                                Command="{Binding OpenLessonsCommand}" />
+
+                                        <Button Text="Zdaj quiz →"
+                                                BackgroundColor="{Binding QuizButtonBg}"
+                                                TextColor="{Binding QuizButtonTextColor}"
+                                                CornerRadius="999"
+                                                HeightRequest="40"
+                                                IsEnabled="{Binding IsUnlocked}"
+                                                Command="{Binding OpenQuizCommand}" />
+                                    </HorizontalStackLayout>
+
+                                    <Label IsVisible="{Binding ShowUnlockHint}"
+                                           Text="Ukończ wszystkie lekcje na 100%, aby odblokować quiz."
+                                           TextColor="#FACC15"
+                                           FontSize="12" />
+
+                                    <Label IsVisible="{Binding ShowNoLessonsHint}"
+                                           Text="Brak lekcji w module — quiz pozostaje zablokowany."
+                                           TextColor="#BDBDBD"
+                                           FontSize="12" />
+
+                                </VerticalStackLayout>
+
+                            </Border>
+
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </VerticalStackLayout>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

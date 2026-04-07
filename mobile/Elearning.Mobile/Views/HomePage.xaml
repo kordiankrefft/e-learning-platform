@@ -1,0 +1,329 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Elearning.Mobile.Views.HomePage"
+    BackgroundColor="#0B0B0B"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <Grid>
+
+        <Grid IsVisible="{Binding IsBusy}">
+            <ActivityIndicator IsRunning="True"
+                               VerticalOptions="Center"
+                               HorizontalOptions="Center" />
+        </Grid>
+
+        <ScrollView x:Name="MainScroll"
+                    IsVisible="{Binding IsNotBusy}">
+            <Grid>
+
+                <VerticalStackLayout
+                    Padding="18"
+                    Spacing="18"
+                    HorizontalOptions="Center"
+                    MaximumWidthRequest="900">
+
+                    <Border
+                        IsVisible="{Binding HasError}"
+                        Background="#3A1C1C"
+                        Stroke="#7A2E2E"
+                        StrokeShape="RoundRectangle 12"
+                        Padding="12">
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="Błąd" FontAttributes="Bold" TextColor="#FFD6D6" />
+                            <Label Text="{Binding Error}" TextColor="#FFD6D6" />
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Border
+                        IsVisible="{Binding Hero}"
+                        Background="#121212"
+                        Stroke="#222"
+                        StrokeShape="RoundRectangle 16"
+                        Padding="16">
+
+                        <VerticalStackLayout Spacing="14">
+
+                            <Label
+                                Text="{Binding Hero.Title}"
+                                FontSize="28"
+                                FontAttributes="Bold"
+                                TextColor="White" />
+
+                            <Label
+                                Text="{Binding Hero.Highlight}"
+                                FontSize="28"
+                                FontAttributes="Bold"
+                                TextColor="#FACC15"
+                                Margin="0,-18,0,0" />
+
+                            <Label
+                                Text="{Binding Hero.Description}"
+                                FontSize="14"
+                                TextColor="#BDBDBD" />
+
+                            <VerticalStackLayout BindableLayout.ItemsSource="{Binding Hero.Bullets}" Spacing="8">
+                                <BindableLayout.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid ColumnDefinitions="20,*" ColumnSpacing="10">
+                                            <Label Grid.Column="0"
+                                                   Text="✓"
+                                                   TextColor="#FACC15"
+                                                   FontSize="16"
+                                                   VerticalOptions="Start" />
+
+                                            <Label Grid.Column="1"
+                                                   Text="{Binding .}"
+                                                   TextColor="White"
+                                                   FontSize="14"
+                                                   LineBreakMode="WordWrap" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </BindableLayout.ItemTemplate>
+                            </VerticalStackLayout>
+
+                            <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                                <Button Grid.Column="0"
+                                        Text="{Binding Hero.PrimaryCta.Label}"
+                                        Command="{Binding HeroPrimaryCtaCommand}"
+                                        BackgroundColor="#FACC15"
+                                        TextColor="White"
+                                        CornerRadius="12"
+                                        HeightRequest="50" />
+
+                                <Button Grid.Column="1"
+                                        Text="{Binding Hero.SecondaryCta.Label}"
+                                        Command="{Binding HeroSecondaryCtaCommand}"
+                                        BackgroundColor="Transparent"
+                                        TextColor="#FACC15"
+                                        BorderColor="#FACC15"
+                                        BorderWidth="1"
+                                        CornerRadius="12"
+                                        HeightRequest="50" />
+                            </Grid>
+
+                            <CarouselView
+                                IsVisible="{Binding HasCarouselSlides}"
+                                ItemsSource="{Binding CarouselSlides}"
+                                HeightRequest="320">
+
+                                <CarouselView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Background="#1A1A1A"
+                                                Stroke="#2A2A2A"
+                                                StrokeShape="RoundRectangle 16"
+                                                Padding="0"
+                                                Margin="0,10,0,0">
+
+                                            <Grid RowDefinitions="140,*"
+                                                  IsClippedToBounds="True">
+
+                                                <Grid Grid.Row="0" IsClippedToBounds="True">
+                                                    <Image Source="{Binding ImageUrl}"
+                                                           Aspect="AspectFill"
+                                                           HeightRequest="140"
+                                                           HorizontalOptions="Fill"
+                                                           VerticalOptions="Fill" />
+                                                </Grid>
+
+                                                <VerticalStackLayout Grid.Row="1" Spacing="6" Padding="14">
+                                                    <Label Text="{Binding Label}"
+                                                           TextColor="#FACC15"
+                                                           FontAttributes="Bold" />
+
+                                                    <Label Text="{Binding Title}"
+                                                           TextColor="White"
+                                                           FontSize="16"
+                                                           FontAttributes="Bold" />
+
+                                                    <Label Text="{Binding Description}"
+                                                           TextColor="#BDBDBD"
+                                                           FontSize="13" />
+                                                </VerticalStackLayout>
+
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </CarouselView.ItemTemplate>
+                            </CarouselView>
+
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Border
+                        x:Name="HowItWorksSection"
+                        IsVisible="{Binding HowItWorks}"
+                        Background="#121212"
+                        Stroke="#222"
+                        StrokeShape="RoundRectangle 16"
+                        Padding="16">
+
+                        <VerticalStackLayout Spacing="12">
+                            <Label Text="{Binding HowItWorks.Title}"
+                                   FontSize="18"
+                                   FontAttributes="Bold"
+                                   TextColor="White" />
+
+                            <VerticalStackLayout BindableLayout.ItemsSource="{Binding HowItWorks.Items}" Spacing="12">
+                                <BindableLayout.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Background="#161616"
+                                                Stroke="#2A2A2A"
+                                                StrokeShape="RoundRectangle 14"
+                                                Padding="14">
+                                            <VerticalStackLayout Spacing="6">
+                                                <Label Text="{Binding Title}" TextColor="#FACC15" FontAttributes="Bold" />
+                                                <Label Text="{Binding Text}" TextColor="#BDBDBD" />
+                                            </VerticalStackLayout>
+                                        </Border>
+                                    </DataTemplate>
+                                </BindableLayout.ItemTemplate>
+                            </VerticalStackLayout>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Border
+                        IsVisible="{Binding Benefits}"
+                        Background="#121212"
+                        Stroke="#222"
+                        StrokeShape="RoundRectangle 16"
+                        Padding="16">
+
+                        <VerticalStackLayout Spacing="12">
+                            <Label Text="{Binding Benefits.Title}" FontSize="18" FontAttributes="Bold" TextColor="White" />
+
+                            <VerticalStackLayout BindableLayout.ItemsSource="{Binding BenefitsItems}" Spacing="12">
+                                <BindableLayout.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Background="#161616"
+                                                Stroke="#2A2A2A"
+                                                StrokeShape="RoundRectangle 14"
+                                                Padding="14">
+                                            <VerticalStackLayout Spacing="6">
+                                                <Image HeightRequest="30" WidthRequest="30">
+                                                    <Image.Source>
+                                                        <FontImageSource FontFamily="FASolid"
+                                                                         Glyph="{Binding Icon}"
+                                                                         Color="#FACC15"
+                                                                         Size="26" />
+                                                    </Image.Source>
+                                                </Image>
+                                                <Label Text="{Binding Title}" TextColor="White" FontAttributes="Bold" />
+                                                <Label Text="{Binding Text}" TextColor="#BDBDBD" />
+                                            </VerticalStackLayout>
+                                        </Border>
+                                    </DataTemplate>
+                                </BindableLayout.ItemTemplate>
+                            </VerticalStackLayout>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Border
+                        IsVisible="{Binding HasAnnouncements}"
+                        Background="#121212"
+                        Stroke="#222"
+                        StrokeShape="RoundRectangle 16"
+                        Padding="16">
+
+                        <VerticalStackLayout Spacing="12">
+                            <Label Text="Ogłoszenia" FontSize="18" FontAttributes="Bold" TextColor="White" />
+                            <Label Text="(Aktualne promocje i ważne informacje)" TextColor="#BDBDBD" FontSize="12" />
+
+                            <VerticalStackLayout BindableLayout.ItemsSource="{Binding Announcements}" Spacing="12">
+                                <BindableLayout.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Background="#161616"
+                                                Stroke="#FACC15"
+                                                StrokeThickness="1"
+                                                StrokeShape="RoundRectangle 14"
+                                                Padding="14">
+
+                                            <VerticalStackLayout Spacing="8">
+                                                <Label Text="{Binding Title}"
+                                                       TextColor="#FACC15"
+                                                       FontAttributes="Bold" />
+
+                                                <VerticalStackLayout IsVisible="{Binding IsPricePromo}" Spacing="8">
+                                                    <Label Text="{Binding PriceDescription}" TextColor="#BDBDBD" />
+
+                                                    <HorizontalStackLayout Spacing="10">
+                                                        <Label Text="{Binding OldPriceText}"
+                                                               TextColor="#8A8A8A"
+                                                               TextDecorations="Strikethrough"
+                                                               FontSize="16" />
+
+                                                        <Label Text="{Binding NewPriceText}"
+                                                               TextColor="#FACC15"
+                                                               FontSize="22"
+                                                               FontAttributes="Bold" />
+
+                                                        <Border Background="#7F1D1D"
+                                                                StrokeShape="RoundRectangle 999"
+                                                                Padding="10,4"
+                                                                VerticalOptions="Center">
+                                                            <Label Text="PROMOCJA" TextColor="White" FontSize="12" />
+                                                        </Border>
+                                                    </HorizontalStackLayout>
+                                                </VerticalStackLayout>
+
+                                                <VerticalStackLayout IsVisible="{Binding IsDurationPromo}" Spacing="8">
+                                                    <Label Text="{Binding DurationDescription}" TextColor="#BDBDBD" />
+
+                                                    <HorizontalStackLayout Spacing="10">
+                                                        <Label Text="{Binding OldDaysText}"
+                                                               TextColor="#8A8A8A"
+                                                               TextDecorations="Strikethrough"
+                                                               FontSize="16" />
+
+                                                        <Label Text="{Binding NewDaysText}"
+                                                               TextColor="#FACC15"
+                                                               FontSize="22"
+                                                               FontAttributes="Bold" />
+
+                                                        <Border Background="#166534"
+                                                                StrokeShape="RoundRectangle 999"
+                                                                Padding="10,4"
+                                                                VerticalOptions="Center">
+                                                            <Label Text="DŁUŻEJ" TextColor="White" FontSize="12" />
+                                                        </Border>
+                                                    </HorizontalStackLayout>
+                                                </VerticalStackLayout>
+
+                                                <Label IsVisible="{Binding IsPlain}"
+                                                       Text="{Binding PlainText}"
+                                                       TextColor="#E5E5E5" />
+                                            </VerticalStackLayout>
+                                        </Border>
+                                    </DataTemplate>
+                                </BindableLayout.ItemTemplate>
+                            </VerticalStackLayout>
+
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Border
+                        IsVisible="{Binding Cta}"
+                        Background="#121212"
+                        Stroke="#222"
+                        StrokeShape="RoundRectangle 16"
+                        Padding="16">
+
+                        <VerticalStackLayout Spacing="10">
+                            <Label Text="{Binding Cta.Title}" FontSize="18" FontAttributes="Bold" TextColor="White" />
+                            <Label Text="{Binding Cta.Description}" TextColor="#BDBDBD" />
+                            <Button Text="{Binding Cta.Cta.Label}"
+                                    Command="{Binding CtaCommand}"
+                                    BackgroundColor="#FACC15"
+                                    TextColor="White"
+                                    CornerRadius="12"
+                                    HeightRequest="50" />
+                        </VerticalStackLayout>
+                    </Border>
+
+                </VerticalStackLayout>
+
+            </Grid>
+        </ScrollView>
+
+    </Grid>
+</ContentPage>

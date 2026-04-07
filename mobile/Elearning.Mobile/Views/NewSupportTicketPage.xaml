@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Elearning.Mobile.Views.NewSupportTicketPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    BackgroundColor="#0B0B0B"
+    Shell.BackButtonBehavior="{StaticResource NoBackButton}">
+
+    <Grid>
+
+        <Grid IsVisible="{Binding IsBusy}">
+            <ActivityIndicator IsRunning="True"
+                               VerticalOptions="Center"
+                               HorizontalOptions="Center" />
+        </Grid>
+
+        <ScrollView IsVisible="{Binding IsNotBusy}">
+            <VerticalStackLayout Padding="18" Spacing="16">
+
+                <Label Text="Nowe zgłoszenie"
+                       TextColor="White"
+                       FontSize="22"
+                       FontAttributes="Bold" />
+
+                <Border IsVisible="{Binding HasError}"
+                        Background="#3A1C1C"
+                        Stroke="#7A2E2E"
+                        StrokeShape="RoundRectangle 12"
+                        Padding="12">
+                    <Label Text="{Binding Error}" TextColor="#FFD6D6" />
+                </Border>
+
+                <VerticalStackLayout Spacing="6">
+                    <Label Text="Kurs"
+                           TextColor="#D1D5DB"
+                           FontSize="12"
+                           FontAttributes="Bold" />
+
+                    <Border Background="#121212"
+                            Stroke="#222"
+                            StrokeShape="RoundRectangle 12"
+                            Padding="10">
+                        <Picker Title="Wybierz kurs..."
+                                ItemsSource="{Binding Courses}"
+                                ItemDisplayBinding="{Binding Title}"
+                                SelectedItem="{Binding SelectedCourse}"
+                                TextColor="White" />
+                    </Border>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="6">
+                    <Label Text="Tytuł"
+                           TextColor="#D1D5DB"
+                           FontSize="12"
+                           FontAttributes="Bold" />
+
+                    <Border Background="#121212"
+                            Stroke="#222"
+                            StrokeShape="RoundRectangle 12"
+                            Padding="10">
+                        <Entry Placeholder="Np. Problem z lekcją / dostępem..."
+                               PlaceholderColor="#6B7280"
+                               TextColor="White"
+                               Text="{Binding Title}"
+                               BackgroundColor="Transparent" />
+                    </Border>
+                </VerticalStackLayout>
+
+                <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="10">
+
+                    <Button Grid.Column="1"
+                            Text="Anuluj"
+                            BackgroundColor="Transparent"
+                            TextColor="#D1D5DB"
+                            BorderColor="#2A2A2A"
+                            BorderWidth="1"
+                            CornerRadius="12"
+                            HeightRequest="44"
+                            Command="{Binding CancelCommand}" />
+
+                    <Button Grid.Column="2"
+                            Text="Utwórz"
+                            BackgroundColor="#FACC15"
+                            TextColor="Black"
+                            CornerRadius="12"
+                            HeightRequest="44"
+                            Command="{Binding CreateCommand}"
+                            IsEnabled="{Binding CanCreate}" />
+                </Grid>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

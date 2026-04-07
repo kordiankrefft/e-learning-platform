@@ -1,0 +1,269 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Elearning.Mobile.Views.LessonPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:blocks="clr-namespace:Elearning.Mobile.ViewModels.LessonBlocks"
+    xmlns:utils="clr-namespace:Elearning.Mobile.Utils"
+    BackgroundColor="#0B0B0B"
+    Shell.BackButtonBehavior="{StaticResource NoBackButton}">
+
+	<ContentPage.Resources>
+		<ResourceDictionary>
+
+			<DataTemplate x:Key="TextBlockTemplate" x:DataType="blocks:TextBlockViewModel">
+				<Border Background="#121212"
+                        Stroke="#222"
+                        StrokeShape="RoundRectangle 16"
+                        Padding="14">
+					<Label Text="{Binding Text}"
+                           TextColor="White"
+                           FontSize="13"
+                           LineBreakMode="WordWrap" />
+				</Border>
+			</DataTemplate>
+
+			<DataTemplate x:Key="SingleChoiceTemplate" x:DataType="blocks:SingleChoiceBlockViewModel">
+				<Border Background="#121212"
+                        Stroke="#222"
+                        StrokeShape="RoundRectangle 16"
+                        Padding="14">
+					<VerticalStackLayout Spacing="10">
+
+						<Label Text="{Binding Question}"
+                               TextColor="White"
+                               FontSize="14"
+                               FontAttributes="Bold" />
+
+						<VerticalStackLayout Spacing="8"
+                                             BindableLayout.ItemsSource="{Binding Options}">
+							<BindableLayout.ItemTemplate>
+								<DataTemplate x:DataType="blocks:SingleChoiceOptionVm">
+
+									<Border BackgroundColor="{Binding Bg}"
+                                            Stroke="{Binding Stroke}"
+                                            StrokeShape="RoundRectangle 12"
+                                            Padding="12">
+
+										<Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+
+											<Label Text="{Binding RadioGlyph}"
+                                                   TextColor="{Binding RadioColor}"
+                                                   FontSize="16"
+                                                   VerticalOptions="Center"/>
+
+											<Label Grid.Column="1"
+                                                   Text="{Binding Text}"
+                                                   TextColor="White"
+                                                   FontSize="13"
+                                                   LineBreakMode="WordWrap"
+                                                   VerticalOptions="Center"/>
+
+										</Grid>
+
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                               Command="{Binding Source={RelativeSource AncestorType={x:Type VerticalStackLayout}}, Path=BindingContext.SelectOptionCommand}"
+                                               CommandParameter="{Binding .}" />
+                                        </Border.GestureRecognizers>
+                                    </Border>
+
+								</DataTemplate>
+							</BindableLayout.ItemTemplate>
+						</VerticalStackLayout>
+
+						<HorizontalStackLayout Spacing="10">
+							<Button Text="Sprawdź"
+                                    BackgroundColor="#FACC15"
+                                    TextColor="Black"
+                                    CornerRadius="999"
+                                    HeightRequest="40"
+                                    Command="{Binding CheckCommand}"
+                                    IsEnabled="{Binding CanCheck}" />
+
+							<Label Text="{Binding ResultText}"
+                                   TextColor="{Binding ResultColor}"
+                                   IsVisible="{Binding ShowResult}"
+                                   VerticalOptions="Center"
+                                   FontAttributes="Bold" />
+						</HorizontalStackLayout>
+
+					</VerticalStackLayout>
+				</Border>
+			</DataTemplate>
+
+			<DataTemplate x:Key="FillBlankTemplate" x:DataType="blocks:FillBlankBlockViewModel">
+				<Border Background="#121212"
+                        Stroke="#222"
+                        StrokeShape="RoundRectangle 16"
+                        Padding="14">
+					<VerticalStackLayout Spacing="10">
+
+						<Label Text="{Binding Prompt}"
+                               TextColor="White"
+                               FontSize="14"
+                               FontAttributes="Bold" />
+
+						<VerticalStackLayout Spacing="8"
+                                             BindableLayout.ItemsSource="{Binding Inputs}">
+							<BindableLayout.ItemTemplate>
+								<DataTemplate x:DataType="blocks:FillBlankInputVm">
+									<Border Background="#0F0F0F"
+                                            Stroke="#222"
+                                            StrokeShape="RoundRectangle 12"
+                                            Padding="10">
+										<Entry Placeholder="Wpisz..."
+                                               PlaceholderColor="#6B7280"
+                                               TextColor="White"
+                                               BackgroundColor="Transparent"
+                                               Text="{Binding Answer}" />
+									</Border>
+								</DataTemplate>
+							</BindableLayout.ItemTemplate>
+						</VerticalStackLayout>
+
+						<HorizontalStackLayout Spacing="10">
+							<Button Text="Sprawdź"
+                                    BackgroundColor="#FACC15"
+                                    TextColor="Black"
+                                    CornerRadius="999"
+                                    HeightRequest="40"
+                                    Command="{Binding CheckCommand}"
+                                    IsEnabled="{Binding CanCheck}" />
+
+							<Label Text="{Binding ResultText}"
+                                   TextColor="{Binding ResultColor}"
+                                   IsVisible="{Binding ShowResult}"
+                                   VerticalOptions="Center"
+                                   FontAttributes="Bold" />
+						</HorizontalStackLayout>
+
+					</VerticalStackLayout>
+				</Border>
+			</DataTemplate>
+
+			<utils:LessonBlockTemplateSelector x:Key="LessonBlockTemplateSelector"
+                                              TextTemplate="{StaticResource TextBlockTemplate}"
+                                              SingleChoiceTemplate="{StaticResource SingleChoiceTemplate}"
+                                              FillBlankTemplate="{StaticResource FillBlankTemplate}" />
+
+		</ResourceDictionary>
+	</ContentPage.Resources>
+
+	<Grid>
+
+		<Grid IsVisible="{Binding IsBusy}">
+			<ActivityIndicator IsRunning="True"
+                               VerticalOptions="Center"
+                               HorizontalOptions="Center" />
+		</Grid>
+
+		<ScrollView IsVisible="{Binding IsNotBusy}">
+			<VerticalStackLayout Padding="18" Spacing="14">
+
+				<Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+					<VerticalStackLayout Spacing="2">
+						<Label Text="{Binding LessonTitle}"
+                               TextColor="White"
+                               FontSize="22"
+                               FontAttributes="Bold" />
+						<Label Text="Interactive lesson blocks"
+                               TextColor="#9CA3AF"
+                               FontSize="12" />
+					</VerticalStackLayout>
+
+					<Border Grid.Column="1"
+                            BackgroundColor="#111827"
+                            Stroke="#222"
+                            StrokeShape="RoundRectangle 999"
+                            Padding="10,6"
+                            VerticalOptions="Start">
+						<Label Text="{Binding ProgressText}"
+                               TextColor="#FDE68A"
+                               FontAttributes="Bold"
+                               FontSize="12" />
+					</Border>
+				</Grid>
+
+				<Border BackgroundColor="#0F0F0F"
+                        Stroke="#222"
+                        StrokeShape="RoundRectangle 999"
+                        Padding="10,6"
+                        IsVisible="{Binding ShowCompletedBadge}">
+					<Label Text="{Binding CompletedText}"
+                           TextColor="#D1D5DB"
+                           FontAttributes="Bold"
+                           FontSize="12" />
+				</Border>
+
+				<Border IsVisible="{Binding HasError}"
+                        Background="#3A1C1C"
+                        Stroke="#7A2E2E"
+                        StrokeShape="RoundRectangle 12"
+                        Padding="12">
+					<Label Text="{Binding Error}" TextColor="#FFD6D6" />
+				</Border>
+
+				<VerticalStackLayout
+                    Spacing="10"
+                    IsVisible="{Binding ShowAttachments}"
+                    BindableLayout.ItemsSource="{Binding Attachments}">
+					<BindableLayout.ItemTemplate>
+						<DataTemplate>
+							<Border Background="#121212"
+                                    Stroke="#222"
+                                    StrokeShape="RoundRectangle 16"
+                                    Padding="12">
+
+								<Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+									<VerticalStackLayout Spacing="2">
+										<Label Text="{Binding FileName}"
+                                               TextColor="White"
+                                               FontAttributes="Bold"
+                                               FontSize="13" />
+										<Label Text="{Binding Description}"
+                                               TextColor="#9CA3AF"
+                                               FontSize="11"
+                                               IsVisible="{Binding HasDescription}" />
+									</VerticalStackLayout>
+
+									<Button Grid.Column="1"
+                                            Text="Otwórz PDF"
+                                            BackgroundColor="Transparent"
+                                            TextColor="#FACC15"
+                                            BorderColor="#FACC15"
+                                            BorderWidth="1"
+                                            CornerRadius="12"
+                                            HeightRequest="36"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.OpenAttachmentCommand}"
+                                            CommandParameter="{Binding .}" />
+								</Grid>
+
+							</Border>
+						</DataTemplate>
+					</BindableLayout.ItemTemplate>
+				</VerticalStackLayout>
+
+				<CollectionView ItemsSource="{Binding Blocks}"
+                                SelectionMode="None"
+                                ItemTemplate="{StaticResource LessonBlockTemplateSelector}"
+                                Margin="0,6,0,0" />
+
+                <Border Margin="0,20,0,0"
+        Stroke="#222"
+        StrokeShape="RoundRectangle 999"
+        BackgroundColor="#121212"
+        Padding="6">
+
+                    <Button Text="Zakończ"
+            BackgroundColor="#FACC15"
+            TextColor="Black"
+            CornerRadius="999"
+            HeightRequest="44"
+            Command="{Binding FinishCommand}" />
+                </Border>
+
+            </VerticalStackLayout>
+		</ScrollView>
+	</Grid>
+</ContentPage>

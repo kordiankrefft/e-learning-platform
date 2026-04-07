@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="Elearning.Mobile.AppShell"
+    x:Name="AppShellRoot"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:Elearning.Mobile.Views"
+    Shell.FlyoutBehavior="Disabled"
+    BackgroundColor="#0B0B0B">
+
+    <Shell.Resources>
+        <ResourceDictionary>
+
+            <Color x:Key="TabBarBackgroundColor">#111111</Color>
+            <Color x:Key="TabBarUnselectedColor">#6B7280</Color>
+            <Color x:Key="TabBarSelectedColor">#FACC15</Color>
+
+            <Style TargetType="TabBar">
+                <Setter Property="Shell.TabBarBackgroundColor" Value="{StaticResource TabBarBackgroundColor}" />
+                <Setter Property="Shell.TabBarUnselectedColor" Value="{StaticResource TabBarUnselectedColor}" />
+                <Setter Property="Shell.TabBarTitleColor" Value="{StaticResource TabBarSelectedColor}" />
+                <Setter Property="Shell.TabBarForegroundColor" Value="{StaticResource TabBarSelectedColor}" />
+            </Style>
+
+        </ResourceDictionary>
+    </Shell.Resources>
+
+    <Shell.TitleView>
+        <Grid ColumnDefinitions="Auto,*,Auto"
+              Padding="10,6"
+              VerticalOptions="Center">
+
+            <HorizontalStackLayout Spacing="12" VerticalOptions="Center">
+                <Border WidthRequest="34"
+                        HeightRequest="34"
+                        BackgroundColor="#FACC15"
+                        StrokeShape="RoundRectangle 999"
+                        VerticalOptions="Center">
+                    <Label Text="L"
+                           TextColor="White"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           HorizontalTextAlignment="Center"
+                           VerticalTextAlignment="Center" />
+                </Border>
+
+                <VerticalStackLayout Spacing="0" VerticalOptions="Center">
+                    <Label Text="Lingrow"
+                           TextColor="White"
+                           FontSize="16"
+                           FontAttributes="Bold" />
+                    <Label Text="Nauka języków online"
+                           TextColor="#FDE68A"
+                           FontSize="11" />
+                </VerticalStackLayout>
+            </HorizontalStackLayout>
+
+            <Button Grid.Column="2"
+                    Text="← Wróć"
+                    BackgroundColor="Transparent"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    Padding="12,0"
+                    Clicked="OnBackClicked"
+                    IsVisible="{Binding Source={x:Reference AppShellRoot}, Path=IsBackVisible}"/>
+
+            <Grid.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnLogoTapped" />
+            </Grid.GestureRecognizers>
+
+        </Grid>
+    </Shell.TitleView>
+
+    <TabBar>
+
+        <ShellContent
+            Title="Home"
+            Route="home"
+            ContentTemplate="{DataTemplate views:HomePage}">
+            <ShellContent.Icon>
+                <FontImageSource FontFamily="FASolid" Glyph="&#xF015;" />
+            </ShellContent.Icon>
+        </ShellContent>
+
+        <ShellContent
+            Title="Kursy"
+            Route="coursecategories"
+            ContentTemplate="{DataTemplate views:CourseCategoriesPage}">
+            <ShellContent.Icon>
+                <FontImageSource FontFamily="FASolid" Glyph="&#xF02D;" />
+            </ShellContent.Icon>
+        </ShellContent>
+
+        <ShellContent
+            Title="Moje kursy"
+            Route="mycourses"
+            ContentTemplate="{DataTemplate views:MyCoursesPage}">
+            <ShellContent.Icon>
+                <FontImageSource FontFamily="FASolid" Glyph="&#xF19D;" />
+            </ShellContent.Icon>
+        </ShellContent>
+
+        <ShellContent
+            Title="Pomoc"
+            Route="help"
+            ContentTemplate="{DataTemplate views:SupportTicketsPage}">
+            <ShellContent.Icon>
+                <FontImageSource FontFamily="FASolid" Glyph="&#xF128;" />
+            </ShellContent.Icon>
+        </ShellContent>
+
+        <ShellContent
+            Title="Profil"
+            Route="profile"
+            ContentTemplate="{DataTemplate views:ProfilePage}">
+            <ShellContent.Icon>
+                <FontImageSource FontFamily="FASolid" Glyph="&#xF007;" />
+            </ShellContent.Icon>
+        </ShellContent>
+
+    </TabBar>
+</Shell>

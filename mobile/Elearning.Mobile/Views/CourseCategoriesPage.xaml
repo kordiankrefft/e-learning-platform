@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Elearning.Mobile.Views.CourseCategoriesPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:dto="clr-namespace:Elearning.Mobile.Dtos.CourseCategory"
+    BackgroundColor="#0B0B0B">
+
+    <Grid>
+
+        <Grid IsVisible="{Binding IsBusy}">
+            <ActivityIndicator IsRunning="True"
+                               VerticalOptions="Center"
+                               HorizontalOptions="Center" />
+        </Grid>
+
+        <ScrollView IsVisible="{Binding IsNotBusy}">
+            <VerticalStackLayout Padding="18" Spacing="14">
+
+                <Label Text="Kategorie kursów"
+                       TextColor="White"
+                       FontSize="22"
+                       FontAttributes="Bold" />
+
+                <Border
+                    IsVisible="{Binding HasError}"
+                    Background="#3A1C1C"
+                    Stroke="#7A2E2E"
+                    StrokeShape="RoundRectangle 12"
+                    Padding="12">
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Błąd" FontAttributes="Bold" TextColor="#FFD6D6" />
+                        <Label Text="{Binding Error}" TextColor="#FFD6D6" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <CollectionView ItemsSource="{Binding Categories}"
+                                SelectionMode="None">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Vertical" ItemSpacing="12" />
+                    </CollectionView.ItemsLayout>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="dto:CourseCategoryDto">
+                            <Border
+                                Background="#121212"
+                                Stroke="#222"
+                                StrokeShape="RoundRectangle 16"
+                                Padding="16">
+
+                                <VerticalStackLayout Spacing="10">
+                                    <Label Text="{Binding Name}"
+                                           TextColor="White"
+                                           FontSize="16"
+                                           FontAttributes="Bold" />
+
+                                    <Label Text="{Binding Description}"
+                                           TextColor="#BDBDBD"
+                                           FontSize="13"
+                                           LineBreakMode="WordWrap" />
+
+                                    <Button Text="Zobacz kursy →"
+                                            BackgroundColor="#FACC15"
+                                            TextColor="Black"
+                                            CornerRadius="999"
+                                            HeightRequest="38"
+                                            HorizontalOptions="Start"
+                                            Padding="16,0"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.OpenCoursesCommand}"
+                                            CommandParameter="{Binding .}" />
+                                </VerticalStackLayout>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <Button Text="Odśwież"
+                        Command="{Binding RefreshCommand}"
+                        BackgroundColor="Transparent"
+                        TextColor="#FACC15"
+                        BorderColor="#FACC15"
+                        BorderWidth="1"
+                        CornerRadius="12"
+                        HeightRequest="44" />
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+    </Grid>
+</ContentPage>

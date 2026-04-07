@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Elearning.Mobile.Views.ProfilePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    BackgroundColor="#0B0B0B">
+
+	<ScrollView>
+		<VerticalStackLayout Padding="18" Spacing="14">
+
+			<ActivityIndicator IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}" />
+
+			<Border
+                IsVisible="{Binding HasError}"
+                Background="#3A1C1C"
+                Stroke="#7A2E2E"
+                StrokeShape="RoundRectangle 12"
+                Padding="12">
+				<VerticalStackLayout Spacing="4">
+					<Label Text="Błąd" FontAttributes="Bold" TextColor="#FFD6D6" />
+					<Label Text="{Binding Error}" TextColor="#FFD6D6" />
+				</VerticalStackLayout>
+			</Border>
+
+			<Border
+                IsVisible="{Binding HasSuccess}"
+                Background="#143A2A"
+                Stroke="#1C7A55"
+                StrokeShape="RoundRectangle 12"
+                Padding="12">
+				<Label Text="{Binding Success}" TextColor="#CFFFEA" />
+			</Border>
+
+			<Border
+                IsVisible="{Binding IsLoggedOut}"
+                Background="#121212"
+                Stroke="#222"
+                StrokeShape="RoundRectangle 16"
+                Padding="16">
+
+				<VerticalStackLayout Spacing="10">
+					<Label Text="Nie jesteś zalogowany"
+                           TextColor="White"
+                           FontSize="18"
+                           FontAttributes="Bold" />
+
+					<Label Text="Zaloguj się lub załóż konto, aby mieć dostęp do kursów i postępów."
+                           TextColor="#BDBDBD" />
+
+					<Button Text="Zaloguj"
+                            Command="{Binding GoToLoginCommand}"
+                            BackgroundColor="#FACC15"
+                            TextColor="Black"
+                            CornerRadius="12"
+                            HeightRequest="44" />
+
+					<Button Text="Zarejestruj się"
+                            Command="{Binding GoToRegisterCommand}"
+                            BackgroundColor="Transparent"
+                            TextColor="#FACC15"
+                            BorderColor="#FACC15"
+                            BorderWidth="1"
+                            CornerRadius="12"
+                            HeightRequest="44" />
+				</VerticalStackLayout>
+			</Border>
+
+			<Border
+                IsVisible="{Binding IsLoggedIn}"
+                Background="#121212"
+                Stroke="#222"
+                StrokeShape="RoundRectangle 16"
+                Padding="16">
+
+				<VerticalStackLayout Spacing="12">
+
+                    <Label Text="{Binding ProfileTitle}"
+                           TextColor="White"
+                           FontSize="20"
+                           FontAttributes="Bold" />
+
+					<VerticalStackLayout Spacing="6">
+						<Label Text="Wyświetlana nazwa" TextColor="#E6E6E6" />
+						<Entry Text="{Binding DisplayName}"
+                               BackgroundColor="#1F1F1F"
+                               TextColor="White"
+                               PlaceholderColor="#9A9A9A" />
+					</VerticalStackLayout>
+
+					<VerticalStackLayout Spacing="6">
+						<Label Text="Preferowany język" TextColor="#E6E6E6" />
+						<Entry Text="{Binding PreferredLanguage}"
+                               BackgroundColor="#1F1F1F"
+                               TextColor="White"
+                               PlaceholderColor="#9A9A9A" />
+					</VerticalStackLayout>
+
+					<VerticalStackLayout Spacing="6">
+						<Label Text="Bio" TextColor="#E6E6E6" />
+						<Editor Text="{Binding Bio}"
+                                AutoSize="TextChanges"
+                                BackgroundColor="#1F1F1F"
+                                TextColor="White"
+                                PlaceholderColor="#9A9A9A"
+                                HeightRequest="120" />
+					</VerticalStackLayout>
+
+					<Button Text="Zapisz"
+                            Command="{Binding SaveCommand}"
+                            BackgroundColor="#FACC15"
+                            TextColor="Black"
+                            CornerRadius="12"
+                            HeightRequest="44" />
+
+					<Button Text="Wyloguj"
+                            Command="{Binding LogoutCommand}"
+                            BackgroundColor="Transparent"
+                            TextColor="#FACC15"
+                            BorderColor="#FACC15"
+                            BorderWidth="1"
+                            CornerRadius="12"
+                            HeightRequest="44" />
+
+				</VerticalStackLayout>
+			</Border>
+
+		</VerticalStackLayout>
+	</ScrollView>
+</ContentPage>

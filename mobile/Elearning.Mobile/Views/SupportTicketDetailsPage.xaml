@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Elearning.Mobile.Views.SupportTicketDetailsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    BackgroundColor="#0B0B0B"
+    Shell.BackButtonBehavior="{StaticResource NoBackButton}">
+
+    <Grid>
+
+        <Grid IsVisible="{Binding IsBusy}">
+            <ActivityIndicator IsRunning="True"
+                               VerticalOptions="Center"
+                               HorizontalOptions="Center" />
+        </Grid>
+
+        <Grid IsVisible="{Binding IsNotBusy}"
+              RowDefinitions="Auto,Auto,*,Auto"
+              Padding="18"
+              RowSpacing="14">
+
+            <Label Text="Wiadomości"
+                   TextColor="White"
+                   FontSize="22"
+                   FontAttributes="Bold" />
+
+            <Border Grid.Row="1"
+                    IsVisible="{Binding HasError}"
+                    Background="#3A1C1C"
+                    Stroke="#7A2E2E"
+                    StrokeShape="RoundRectangle 12"
+                    Padding="12">
+                <Label Text="{Binding Error}" TextColor="#FFD6D6" />
+            </Border>
+
+            <Border Grid.Row="2"
+                    Background="#0F0F0F"
+                    Stroke="#222"
+                    StrokeShape="RoundRectangle 16"
+                    Padding="12">
+
+                <CollectionView ItemsSource="{Binding Items}"
+                                SelectionMode="None">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border Background="#121212"
+                                    Stroke="#222"
+                                    StrokeShape="RoundRectangle 14"
+                                    Padding="12"
+                                    Margin="0,0,0,10">
+
+                                <VerticalStackLayout Spacing="8">
+
+                                    <Grid ColumnDefinitions="*,Auto">
+                                        <Border Background="#1F2937"
+                                                StrokeShape="RoundRectangle 999"
+                                                Padding="10,5"
+                                                HorizontalOptions="Start">
+                                            <Label Text="{Binding FromUserName}"
+                                                   TextColor="#FDE68A"
+                                                   FontAttributes="Bold"
+                                                   FontSize="11" />
+                                        </Border>
+
+                                        <Label Grid.Column="1"
+                                               Text="{Binding SentAt, StringFormat='{0:yyyy-MM-dd HH:mm}'}"
+                                               TextColor="#9CA3AF"
+                                               FontSize="11"
+                                               VerticalOptions="Center" />
+                                    </Grid>
+
+                                    <Label Text="{Binding MessageBody}"
+                                           TextColor="White"
+                                           LineBreakMode="WordWrap" />
+
+                                </VerticalStackLayout>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+
+                    <CollectionView.EmptyView>
+                        <Label Text="Brak wiadomości. Napisz pierwszą."
+                               TextColor="#BDBDBD"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center" />
+                    </CollectionView.EmptyView>
+
+                </CollectionView>
+
+            </Border>
+
+            <Border Grid.Row="3"
+                    Background="#121212"
+                    Stroke="#222"
+                    StrokeShape="RoundRectangle 16"
+                    Padding="12">
+
+                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+
+                    <Editor Placeholder="Napisz wiadomość..."
+                            Text="{Binding MessageBody}"
+                            AutoSize="TextChanges"
+                            BackgroundColor="Transparent"
+                            TextColor="White" />
+
+                    <Button Grid.Column="1"
+                            Text="Wyślij"
+                            BackgroundColor="#FACC15"
+                            TextColor="Black"
+                            CornerRadius="999"
+                            HeightRequest="40"
+                            Command="{Binding SendCommand}"
+                            IsEnabled="{Binding CanSend}" />
+                </Grid>
+            </Border>
+
+        </Grid>
+    </Grid>
+</ContentPage>

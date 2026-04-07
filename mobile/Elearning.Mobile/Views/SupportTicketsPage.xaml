@@ -1,0 +1,158 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Elearning.Mobile.Views.SupportTicketsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    BackgroundColor="#0B0B0B"
+    Shell.BackButtonBehavior="{StaticResource NoBackButton}">
+
+    <Grid>
+
+        <Grid IsVisible="{Binding IsBusy}">
+            <ActivityIndicator IsRunning="True"
+                               VerticalOptions="Center"
+                               HorizontalOptions="Center" />
+        </Grid>
+
+        <ScrollView IsVisible="{Binding IsNotBusy}">
+            <VerticalStackLayout Padding="18" Spacing="14">
+
+                <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="10" VerticalOptions="Center">
+                    <Label Text="Pomoc"
+                           TextColor="White"
+                           FontSize="22"
+                           FontAttributes="Bold" />
+
+                    <Border Grid.Column="1"
+                            BackgroundColor="#EF4444"
+                            StrokeShape="RoundRectangle 999"
+                            Padding="10,4"
+                            IsVisible="{Binding UnreadHelpCountVisible}"
+                            VerticalOptions="Center"
+                            HorizontalOptions="End">
+                        <Label Text="{Binding UnreadHelpCountText}"
+                               TextColor="White"
+                               FontAttributes="Bold"
+                               FontSize="12" />
+                    </Border>
+
+                    <Button Grid.Column="2"
+                            Text="Nowe"
+                            BackgroundColor="#FACC15"
+                            TextColor="Black"
+                            CornerRadius="12"
+                            HeightRequest="36"
+                            Command="{Binding NewTicketCommand}" />
+                </Grid>
+
+
+                <Label Text="Twoje zgłoszenia i rozmowy w ramach wsparcia."
+                       TextColor="#9CA3AF"
+                       FontSize="12" />
+
+                <Border IsVisible="{Binding HasError}"
+                        Background="#3A1C1C"
+                        Stroke="#7A2E2E"
+                        StrokeShape="RoundRectangle 12"
+                        Padding="12">
+                    <Label Text="{Binding Error}" TextColor="#FFD6D6" />
+                </Border>
+
+                <Border Background="#121212"
+                        Stroke="#222"
+                        StrokeShape="RoundRectangle 12"
+                        Padding="12">
+                    <Entry Placeholder="Szukaj po tytule / statusie / kursie / id..."
+                           PlaceholderColor="#6B7280"
+                           TextColor="White"
+                           Text="{Binding SearchText}"
+                           BackgroundColor="Transparent" />
+                </Border>
+
+                <Label Text="Brak zgłoszeń do wyświetlenia."
+                       TextColor="#BDBDBD"
+                       IsVisible="{Binding ShowEmptyState}" />
+
+                <Border IsVisible="{Binding ShowTable}"
+                        Background="#0F0F0F"
+                        Stroke="#222"
+                        StrokeShape="RoundRectangle 16"
+                        Padding="0">
+
+                    <VerticalStackLayout Spacing="5"
+                                         BindableLayout.ItemsSource="{Binding FilteredItems}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate>
+
+                                <Border Background="#121212"
+                                        Stroke="#222"
+                                        StrokeShape="RoundRectangle 0"
+                                        Padding="12"
+                                        Margin="0,0,0,1">
+
+                                    <Grid ColumnDefinitions="*,Auto"
+                                          ColumnSpacing="12">
+
+                                        <VerticalStackLayout Spacing="6">
+
+                                            <Label Text="{Binding Title}"
+                                                   TextColor="White"
+                                                   FontAttributes="Bold"
+                                                   FontSize="14"
+                                                   LineBreakMode="TailTruncation" />
+
+                                            <HorizontalStackLayout Spacing="8">
+
+                                                <Border BackgroundColor="#1F2937"
+                                                        StrokeShape="RoundRectangle 999"
+                                                        Padding="10,4">
+                                                    <Label Text="{Binding Status}"
+                                                           TextColor="#FDE68A"
+                                                           FontSize="11"
+                                                           FontAttributes="Bold" />
+                                                </Border>
+
+                                                <Label Text="{Binding CourseTitle}"
+                                                       TextColor="#D1D5DB"
+                                                       FontSize="11"
+                                                       LineBreakMode="TailTruncation"
+                                                       VerticalOptions="Center" />
+                                            </HorizontalStackLayout>
+
+                                            <Label Text="{Binding CreatedAt, StringFormat='Utworzono: {0:yyyy-MM-dd HH:mm}'}"
+                                                   TextColor="#9CA3AF"
+                                                   FontSize="11" />
+                                        </VerticalStackLayout>
+
+                                        <Button Grid.Column="1"
+                                                Text="Otwórz"
+                                                BackgroundColor="#FACC15"
+                                                TextColor="Black"
+                                                CornerRadius="12"
+                                                HeightRequest="36"
+                                                WidthRequest="92"
+                                                VerticalOptions="Center"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.OpenTicketCommand}"
+                                                CommandParameter="{Binding .}" />
+                                    </Grid>
+
+                                </Border>
+
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </VerticalStackLayout>
+                </Border>
+
+                <Button Text="Odśwież"
+                        Command="{Binding RefreshCommand}"
+                        BackgroundColor="Transparent"
+                        TextColor="#FACC15"
+                        BorderColor="#FACC15"
+                        BorderWidth="1"
+                        CornerRadius="12"
+                        HeightRequest="44" />
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>
