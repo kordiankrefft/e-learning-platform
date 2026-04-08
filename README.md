@@ -20,7 +20,6 @@ Full-stack e-learning system built with ASP.NET Core, React, and .NET MAUI.
 - SQL Server
 - React
 - .NET MAUI
-- AutoMapper
 - FluentValidation
 - JWT
 
