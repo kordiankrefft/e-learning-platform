@@ -23,6 +23,39 @@ Full-stack e-learning system built with ASP.NET Core, React, and .NET MAUI.
 - FluentValidation
 - JWT
 
+## 📸 Screenshots
+
+### Home page
+![Homepage](screenshots/homepage.png)
+
+### Course list
+![Courses](screenshots/mycourses.png)
+
+### Lesson view
+![Lesson](screenshots/lesson.png)
+
+### Quiz
+![Quiz](screenshots/quiz.png)
+
+### Admin panel
+![Admin](screenshots/admin.png)
+
+## ⚙️ How to run
+
+### Backend
+- Open solution in Visual Studio
+- Configure connection string in `appsettings.json`
+- Run API
+
+### Frontend
+- Navigate to `frontend` folder
+- Run:
+
+```bash
+npm install
+npm run dev
+```
+
 ## 🏗️ Project Structure
 
 - `backend/` – ASP.NET Core Web API
@@ -32,3 +65,4 @@ Full-stack e-learning system built with ASP.NET Core, React, and .NET MAUI.
 ## 📌 About
 
 This project was created as part of an engineering thesis and demonstrates full-stack application development.
+
