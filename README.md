@@ -1,6 +1,12 @@
 # 🎓 E-Learning Platform
 
-Full-stack e-learning system built with ASP.NET Core, React, and .NET MAUI.
+## 💡 Project Overview
+
+This project is a full-stack e-learning platform designed to support online learning through structured courses, lessons, and quizzes.
+
+The system follows a client-server architecture. The backend is built with ASP.NET Core Web API and handles business logic, authentication, and data management using SQL Server (Database First approach).
+
+The frontend is implemented in React, while a mobile application was developed using .NET MAUI. Both clients communicate with the backend via REST API.
 
 ## 🚀 Features
 
@@ -72,7 +78,3 @@ For detailed setup instructions, see [SETUP.md](SETUP.md)
 - `backend/` – ASP.NET Core Web API
 - `frontend/` – React application
 - `mobile/` – .NET MAUI application
-
-## 📌 About
-
-This project was created as part of an engineering thesis and demonstrates full-stack application development.
