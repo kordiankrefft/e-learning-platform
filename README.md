@@ -26,28 +26,35 @@ Full-stack e-learning system built with ASP.NET Core, React, and .NET MAUI.
 ## 📸 Screenshots
 
 ### Home page
+
 ![Homepage](screenshots/homepage.png)
 
 ### Course list
+
 ![Courses](screenshots/mycourses.png)
 
 ### Lesson view
+
 ![Lesson](screenshots/lesson.png)
 
 ### Quiz
+
 ![Quiz](screenshots/quiz.png)
 
 ### Admin panel
+
 ![Admin](screenshots/admin.png)
 
 ## ⚙️ How to run
 
 ### Backend
+
 - Open solution in Visual Studio
 - Configure connection string in `appsettings.json`
 - Run API
 
 ### Frontend
+
 - Navigate to `frontend` folder
 - Run:
 
@@ -55,6 +62,10 @@ Full-stack e-learning system built with ASP.NET Core, React, and .NET MAUI.
 npm install
 npm run dev
 ```
+
+## 📖 Setup
+
+For detailed setup instructions, see [SETUP.md](SETUP.md)
 
 ## 🏗️ Project Structure
 
@@ -65,4 +76,3 @@ npm run dev
 ## 📌 About
 
 This project was created as part of an engineering thesis and demonstrates full-stack application development.
-
