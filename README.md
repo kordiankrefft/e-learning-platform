@@ -35,6 +35,10 @@ The frontend is implemented in React, while a mobile application was developed u
 
 ![Homepage](screenshots/homepage.png)
 
+### Home page 2
+
+![Homepage 2](screenshots/homepage2.png)
+
 ### Course list
 
 ![Courses](screenshots/mycourses.png)
@@ -47,9 +51,29 @@ The frontend is implemented in React, while a mobile application was developed u
 
 ![Quiz](screenshots/quiz.png)
 
+### Login
+
+![Login](screenshots/login.png)
+
+### Register
+
+![Register](screenshots/register.png)
+
 ### Admin panel
 
 ![Admin](screenshots/admin.png)
+
+### Admin panel 2
+
+![Admin 2](screenshots/admin2.png)
+
+### Admin panel 3
+
+![Admin 3](screenshots/admin_edit.png)
+
+### Support ticket
+
+![Support ticket](screenshots/support_ticket.png)
 
 ## ⚙️ How to run
 
