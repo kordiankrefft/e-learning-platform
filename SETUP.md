@@ -4,12 +4,12 @@
 
 Before running the project, make sure you have installed:
 
-* Microsoft SQL Server (Express or Developer)
-* SQL Server Management Studio (SSMS)
-* Visual Studio 2022 (.NET + MAUI workload)
-* Node.js (LTS)
-* Visual Studio Code
-* Android Emulator (optional)
+- Microsoft SQL Server (Express or Developer)
+- SQL Server Management Studio (SSMS)
+- Visual Studio 2022 (.NET + MAUI workload)
+- Node.js (LTS)
+- Visual Studio Code
+- Android Emulator (optional)
 
 ---
 
@@ -21,30 +21,23 @@ This project uses a SQL Server database provided as a backup file.
 
 1. Open **SQL Server Management Studio (SSMS)**
 2. Connect to your local SQL Server instance
-3. Right-click on **Databases** → **Restore Database...**
-4. In **Source**, select:
+3. Open a new query window (**New Query**)
+4. Open file: database/schema.sql
+5. Click **Execute (F5)**
 
-   * **Device**
-   * Click **...** and choose the file:
+### Result
 
-     ```
-     database/ElearningDb.bak
-     ```
-5. Set database name to:
+After execution, the database will be created with:
 
-   ```
-   ElearningDb
-   ```
-6. Go to **Files** tab (optional):
+- all tables
+- relationships
+- sample (test) data
 
-   * Enable **Relocate all files to folder**
-7. Click **OK**
+You should now see:
 
-After restoring, the database should be visible as:
-
-```
 ElearningDb
-```
+
+ready to use.
 
 ---
 
@@ -75,6 +68,7 @@ If needed, change `Server=` to your SQL instance (e.g. `.\SQLEXPRESS`).
    ```
    backend/Elearning.API/Elearning.API.sln
    ```
+
 2. Run the API using **HTTPS profile**
 
 Default address:
@@ -123,8 +117,8 @@ http://localhost:5173
 
 ## 🔧 Configuration Notes
 
-* Backend must be running before frontend or mobile app
-* If backend port changes, update `.env` file in frontend:
+- Backend must be running before frontend or mobile app
+- If backend port changes, update `.env` file in frontend:
 
 ```
 VITE_API_BASE_URL=https://localhost:7164
@@ -138,31 +132,30 @@ You can log in using the following accounts:
 
 ### Administrator
 
-* Email: [admin@test.pl](mailto:admin@test.pl)
-* Password: Admin1$
+- Email: [admin@test.pl](mailto:admin@test.pl)
+- Password: Admin1$
 
 ### Tutor
 
-* Email: [tutor1@test.pl](mailto:tutor1@test.pl)
-* Password: Tutor1$
+- Email: [tutor1@test.pl](mailto:tutor1@test.pl)
+- Password: Tutor1$
 
 ### Student
 
-* Email: [student1@test.pl](mailto:student1@test.pl)
-* Password: Student1$
+- Email: [student1@test.pl](mailto:student1@test.pl)
+- Password: Student1$
 
 ---
 
 ## ⚠️ Troubleshooting
 
-* If you see HTTPS errors:
-
-  * Run:
+- If you see HTTPS errors:
+  - Run:
 
     ```
     dotnet dev-certs https --trust
     ```
-* If frontend cannot connect to API:
 
-  * Check backend is running
-  * Verify API URL in `.env`
+- If frontend cannot connect to API:
+  - Check backend is running
+  - Verify API URL in `.env`

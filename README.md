@@ -53,6 +53,11 @@ The frontend is implemented in React, while a mobile application was developed u
 
 ## ⚙️ How to run
 
+### Database
+
+- Open `database/schema.sql` in SQL Server Management Studio
+- Run the script (F5)
+
 ### Backend
 
 - Open solution in Visual Studio
